@@ -1,0 +1,373 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Introduction to the worksheets</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-06-03"><meta name="DC.source" content="WORKSHEET1_introduction.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Introduction to the worksheets</h1><!--introduction--><p><i>Written by Sebastian Kraemer, IGPM at RWTH Aachen University</i></p><p>You can <b>view</b> this document properly using the Publish tool, which will open a .html file (RUN_ME_FIRST.m may just have done this for you). You can find that option under PUBLISH (right next to the EDITOR tab above). Doing so will also display a table of contents. Best try it out now.</p><p>The worksheets will be Matlab files with inline code. We will not test your knowledge about the <b>exercises</b> (we surely can if you wish), but nonetheless it is a good idea to treat them as if we would. There will be small sections in which you can enter your <b>solutions</b>. You can of course modify anything you like, but in that case make sure that the exercises remain intact.</p><p>This worksheet contains some <b>help</b> for Matlab, but if you have trouble or just never worked with Matlab, just ask for a short introduction. At any time, it is always a good idea to look into the very good documentation of Matlab. If this does not work out, you may just write Pseudo Code and ask for a translation into Matlab.</p><p>To <b>evaluate</b> a single section (in between horizontal lines) click any line within the section and press alt+enter. You may also do this via a right click. The result will appear in the command line window.</p><p>You can use the command line window also to <b>play around</b>, for example to understand a new function. For longer tests, or tests you like to keep for a while, use SANDBOX.m.</p><p>It may further be helpful to change the default <b>shortcuts</b> from emacs to windows (select the HOME tab above and navigate to Preferences/Keyboard/Shortcuts).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Constructing a tensor</a></li><li><a href="#3">Implemention of tensors</a></li><li><a href="#5">Using a for loop</a></li><li><a href="#6">EXERCISE 1: operator()</a></li><li><a href="#7">SOLUTION 1</a></li><li><a href="#8">The reshape function</a></li><li><a href="#10">EXERCISE 2: reshape</a></li><li><a href="#11">EXERCISE 3: operator_bracket</a></li><li><a href="#12">Next: WORKSHEET2_CP_format.m</a></li></ul></div><pre class="codeinput">clear <span class="string">all</span> <span class="comment">% this clears all variables of their values</span>
+</pre><h2>Constructing a tensor<a name="2"></a></h2><p>Luckily, Matlab already has tensors at its disposel, which work very analogous to matrices. Not suprisingly, it is slightly more complicated to display these.</p><pre class="codeinput">A1 = zeros(2,3); <span class="comment">% a semicolon suppresses the output</span>
+A1 <span class="comment">% only now is A1 displayed</span>
+T1 = zeros(2,3,4)
+</pre><pre class="codeoutput">
+A1 =
+
+     0     0     0
+     0     0     0
+
+
+T1(:,:,1) =
+
+     0     0     0
+     0     0     0
+
+
+T1(:,:,2) =
+
+     0     0     0
+     0     0     0
+
+
+T1(:,:,3) =
+
+     0     0     0
+     0     0     0
+
+
+T1(:,:,4) =
+
+     0     0     0
+     0     0     0
+
+</pre><h2>Implemention of tensors<a name="3"></a></h2><p>Matlab (and any other code), at its most basic level, saves tensors as array (or vectors). So, every time the operator (i_1,...,i_d) is called, the computer needs to find the respective entry in this array. Matlab can turn any tensor to this array using the (:) command. This is very helpful to fill a tensor. As you will see, matrices are saved column-wise, while for tensor mode 1 comes first, too, and is then followed by mode 2, 3, ...:</p><pre class="codeinput">A2 = [1,3,5; 2,4,6]
+A2(:)
+</pre><pre class="codeoutput">
+A2 =
+
+     1     3     5
+     2     4     6
+
+
+ans =
+
+     1
+     2
+     3
+     4
+     5
+     6
+
+</pre><pre class="codeinput">T1(:) = 1:(2*3*4)
+T1(1,2,3)
+T1(15)
+</pre><pre class="codeoutput">
+T1(:,:,1) =
+
+     1     3     5
+     2     4     6
+
+
+T1(:,:,2) =
+
+     7     9    11
+     8    10    12
+
+
+T1(:,:,3) =
+
+    13    15    17
+    14    16    18
+
+
+T1(:,:,4) =
+
+    19    21    23
+    20    22    24
+
+
+ans =
+
+    15
+
+
+ans =
+
+    15
+
+</pre><h2>Using a for loop<a name="5"></a></h2><p>One may also use for loops to fill in the entries of a tensor:</p><pre class="codeinput">B1 = zeros(3,4,2);
+<span class="keyword">for</span> i = 1:3*4*2
+    B1(i) = sin(pi/2*i);
+<span class="keyword">end</span>
+B1(:,:,1)
+
+<span class="comment">% or simply use B1(:) = sin(1:4*3*2)</span>
+</pre><pre class="codeoutput">
+ans =
+
+    1.0000   -0.0000   -1.0000    0.0000
+    0.0000    1.0000   -0.0000   -1.0000
+   -1.0000    0.0000    1.0000   -0.0000
+
+</pre><h2>EXERCISE 1: operator()<a name="6"></a></h2><p>Construct a 3 by 2 by 4 tensor (default value 0) and set entry number 12 as 1. To which index (i_1,...,i_d) of the tensor does this entry belong? Call the corresponding Matlab operator to verify your answer.</p><h2>SOLUTION 1<a name="7"></a></h2><pre class="codeinput">T2 = <span class="string">'ANSWER 2 MISSING'</span>;
+</pre><h2>The reshape function<a name="8"></a></h2><p>Tensors can be reshaped without any relevant cost, since Matlab does not need to change the underlying array of a tensor. Surely, this operation must not change the total number of entries.</p><pre class="codeinput">size(T1)
+T1(15)
+T1(2,2,2)
+</pre><pre class="codeoutput">
+ans =
+
+     2     3     4
+
+
+ans =
+
+    15
+
+
+ans =
+
+    10
+
+</pre><pre class="codeinput">T3 = reshape(T1,[3,4,2]);
+size(T3)
+T3(15)
+T3(2,2,2)
+
+<span class="comment">% reshape(T1,[1,2,3]) produces an error</span>
+</pre><pre class="codeoutput">
+ans =
+
+     3     4     2
+
+
+ans =
+
+    15
+
+
+ans =
+
+    17
+
+</pre><h2>EXERCISE 2: reshape<a name="10"></a></h2><p>Explain what happens in the following line:</p><pre class="codeinput">A2 = reshape(T1,[6,4])
+</pre><pre class="codeoutput">
+A2 =
+
+     1     7    13    19
+     2     8    14    20
+     3     9    15    21
+     4    10    16    22
+     5    11    17    23
+     6    12    18    24
+
+</pre><h2>EXERCISE 3: operator_bracket<a name="11"></a></h2><p>Complete the operator_bracket function which should do exactly the same as the operator (i_1,...,i_d), that is, return the entry T(i_1,...,i_d), where I = [i_1,...,i_d] (but of course without using that operator). You may select the function below with the cursor and press control+d to open the separate file operator_bracket directly.</p><pre class="codeinput">T4 = rand(2,3,4,5);
+T4(1,2,3,4)
+operator_bracket(T4,[1,2,3,4])
+T4(2,1,2,1)
+operator_bracket(T4,[2,1,2,1])
+</pre><pre class="codeoutput">
+ans =
+
+    0.9252
+
+
+ans =
+
+ANSWER 3 MISSING
+
+
+ans =
+
+    0.9011
+
+
+ans =
+
+ANSWER 3 MISSING
+
+</pre><h2>Next: WORKSHEET2_CP_format.m<a name="12"></a></h2><p>open WORKSHEET2_CP_format.m and continue there</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Introduction to the worksheets
+% _Written by Sebastian Kraemer, IGPM at RWTH Aachen University_
+%
+% You can *view* this document properly using the Publish tool, which will open
+% a .html file (RUN_ME_FIRST.m may just have done this for you). You can find 
+% that option under PUBLISH (right next to the EDITOR tab above). Doing so will also
+% display a table of contents. Best try it out now.
+%
+% The worksheets will be Matlab files with inline code. We will not
+% test your knowledge about the *exercises* (we surely can if you
+% wish), but nonetheless it is a good idea to treat them as if we would.
+% There will be small sections in which you can enter your *solutions*. You
+% can of course modify anything you like, but in that case make sure that
+% the exercises remain intact.
+%
+% This worksheet contains some *help* for Matlab, but if you have trouble or
+% just never worked with Matlab, just ask for a short introduction. At any
+% time, it is always a good idea to look into the very good documentation
+% of Matlab. If this does not work out, you may just write Pseudo Code and ask for a
+% translation into Matlab.
+%
+% To *evaluate* a single section (in between horizontal lines) click any line
+% within the section and press alt+enter. You may also do this via a right
+% click. The result will appear in the command line window.
+%
+% You can use the command line window also to *play around*, for example to
+% understand a new function. For longer tests, or tests you like to keep for a while,
+% use SANDBOX.m. 
+%
+% It may further be helpful to change the default *shortcuts* from emacs to
+% windows (select the HOME tab above and navigate to
+% Preferences/Keyboard/Shortcuts).
+%%
+clear all % this clears all variables of their values
+
+%% Constructing a tensor
+% Luckily, Matlab already has tensors at its disposel, which work very
+% analogous to matrices. Not suprisingly, it is slightly more complicated to
+% display these.
+A1 = zeros(2,3); % a semicolon suppresses the output
+A1 % only now is A1 displayed
+T1 = zeros(2,3,4)
+
+%% Implemention of tensors
+% Matlab (and any other code), at its most basic level, saves tensors as array (or vectors). 
+% So, every time the operator (i_1,...,i_d) is called, the computer needs to find the 
+% respective entry in this array. Matlab can turn any tensor to this array
+% using the (:) command. This is very helpful to fill a tensor. As you
+% will see, matrices are saved column-wise, while for tensor mode 1
+% comes first, too, and is then followed by mode 2, 3, ...:
+A2 = [1,3,5; 2,4,6]
+A2(:)
+%%
+T1(:) = 1:(2*3*4)
+T1(1,2,3)
+T1(15)
+
+%% Using a for loop
+% One may also use for loops to fill in the entries of a tensor:
+B1 = zeros(3,4,2);
+for i = 1:3*4*2
+    B1(i) = sin(pi/2*i);
+end
+B1(:,:,1)
+
+% or simply use B1(:) = sin(1:4*3*2)
+
+%% EXERCISE 1: operator()
+% Construct a 3 by 2 by 4 tensor (default value 0) and set entry number 12 as 1.
+% To which index (i_1,...,i_d) of the tensor does this entry belong?
+% Call the corresponding Matlab operator to verify your answer.
+
+%% SOLUTION 1
+T2 = 'ANSWER 2 MISSING';
+
+%% The reshape function
+% Tensors can be reshaped without any relevant cost, since Matlab does
+% not need to change the underlying array of a tensor. Surely, this
+% operation must not change the total number of entries.
+size(T1)
+T1(15)
+T1(2,2,2)
+%%
+T3 = reshape(T1,[3,4,2]);
+size(T3)
+T3(15)
+T3(2,2,2)
+
+% reshape(T1,[1,2,3]) produces an error
+
+%% EXERCISE 2: reshape
+% Explain what happens in the following line:
+A2 = reshape(T1,[6,4])
+
+%% EXERCISE 3: operator_bracket
+% Complete the operator_bracket function which should do exactly the same as the operator
+% (i_1,...,i_d), that is, return the entry T(i_1,...,i_d), where I = [i_1,...,i_d]
+% (but of course without using that operator).
+% You may select the function below with the cursor and press control+d to 
+% open the separate file operator_bracket directly. 
+T4 = rand(2,3,4,5);
+T4(1,2,3,4)
+operator_bracket(T4,[1,2,3,4])
+T4(2,1,2,1)
+operator_bracket(T4,[2,1,2,1])
+
+%% Next: WORKSHEET2_CP_format.m
+% open WORKSHEET2_CP_format.m and continue there
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,6 @@
+function L = left_unfold(Gmu,r1,r2,n)
+
+L = permute(reshape(...
+    Gmu,[r1,n,r2]),...
+    [1,3,2]);
+end

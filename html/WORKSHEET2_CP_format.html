@@ -1,0 +1,849 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>CP format</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-06-03"><meta name="DC.source" content="WORKSHEET2_CP_format.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>CP format</h1><!--introduction--><p><i>Written by Sebastian Kraemer, IGPM at RWTH Aachen University</i></p><p><i>The CP decomposition (F. L. Hitchcock (1927)) is historically also known as PARAFAC (Harshman, Richard A. (1970)) or CANDECOMP (Carroll, J. D.; Chang, J. (1970)).</i></p><p>The CP format is a straight-forward generalization of the low rank decompostion for matrices (which does not mean that it easy to work with). Likewise, the (CP-)rank of a tensor is defined as equivalent to the rank of matrices:</p><p><img src="WORKSHEET2_CP_format_eq03157219663996484660.png" alt="$$ \mathrm{rank}(A) = \min_{r \in N} \ \{ k \in N \mid \exists \phi_{1,j} \in R^{n_1}, \phi_{2,j} \in R^{n_2},\ j = 1,\ldots,k,\quad A = \sum_{j = 1}^k \phi_{1,j} \ \phi_{2,j}^T \} $$"></p><p><img src="WORKSHEET2_CP_format_eq05371405062310060790.png" alt="$$ \mathrm{rank}(T) := \min_{r \in N} \ \{ k \in N \mid \exists \phi_{\mu,j} \in R^{n_\mu}, \mu =&#xA;1,\ldots,d,\ j = 1,\ldots,k,\quad T = \sum_{j = 1}^k \phi_{1,j} \otimes \ldots \otimes \phi_{d,j} \} $$"></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Matlab: svd</a></li><li><a href="#4">Low rank decomposition in CP format</a></li><li><a href="#7">Matlab: cells</a></li><li><a href="#8">EXERCISE 1: mode_1_kron</a></li><li><a href="#9">EXERCISE 2: CP_to_full_tensor</a></li><li><a href="#10">EXERCISE 3: verification</a></li><li><a href="#12">SOLUTION 3</a></li><li><a href="#13">Low rank approximation</a></li><li><a href="#14">Alternating least squares</a></li><li><a href="#17">Matlab: The permute function</a></li><li><a href="#19">EXERCISE 4: permute</a></li><li><a href="#20">EXERCISE* 5: CP_approximation</a></li><li><a href="#21">EXERCISE* 6: rank 2 approximation of a rank 3 tensor</a></li><li><a href="#23">Generic rank of CP tensors</a></li><li><a href="#24">EXPERIMENT* 1: generic rank</a></li><li><a href="#25">Next: Tucker_format.m</a></li></ul></div><pre class="codeinput">clear <span class="string">all</span> <span class="comment">% this clears all variables of their values</span>
+</pre><h2>Matlab: svd<a name="2"></a></h2><p>For matrices, the well known SVD can be used to construct a low rank decomposition:</p><pre class="codeinput">A1 = [2 3 5
+      0 1 2
+      4 5 8]
+r = rank(A1) <span class="comment">% Note that this call already uses an svd. We will later avoid that.</span>
+[U,S,V] = svd(A1);
+</pre><pre class="codeoutput">
+A1 =
+
+     2     3     5
+     0     1     2
+     4     5     8
+
+
+r =
+
+     2
+
+</pre><pre class="codeinput">S
+X = U(:,1:2)*S(1:2,1:2)
+Y = V(:,1:2)
+
+X*Y'
+</pre><pre class="codeoutput">
+S =
+
+   12.1303         0         0
+         0    0.9254         0
+         0         0    0.0000
+
+
+X =
+
+   -6.1592   -0.2543
+   -2.0764   -0.8298
+  -10.2419    0.3212
+
+
+Y =
+
+   -0.3621    0.9062
+   -0.4877    0.0153
+   -0.7944   -0.4225
+
+
+ans =
+
+    2.0000    3.0000    5.0000
+         0    1.0000    2.0000
+    4.0000    5.0000    8.0000
+
+</pre><h2>Low rank decomposition in CP format<a name="4"></a></h2><p>Unfortunately, even to calculate the CP-rank of a tensor is NP-hard. Accordingly, there is no rank() function for tensors implemented in Matlab.</p><p>However, one does not always have to use the rank, but may work with a slightly higher number of summands. These summands may be saved as matrices, where each first mode corresponds to the tensor mode size and the second one to the summation index. Then, with reference to the upper notation,</p><p><img src="WORKSHEET2_CP_format_eq10978548125674311294.png" alt="$${\tt phi1(i,j)} = (\phi_{1,j})_i, \quad {\tt phi2(i,j)} = (\phi_{2,j})_i, \ \ldots$$"></p><p>For example, the following three matrices define a CP-representation for the tensor T1.</p><pre class="codeinput">phi1 = [1,0; 1,2; 2,0]
+phi2 = [2,3; 2,1; 1,2; 0,1]
+phi3 = [1,0; 2,1]
+</pre><pre class="codeoutput">
+phi1 =
+
+     1     0
+     1     2
+     2     0
+
+
+phi2 =
+
+     2     3
+     2     1
+     1     2
+     0     1
+
+
+phi3 =
+
+     1     0
+     2     1
+
+</pre><pre class="codeinput">T1 = zeros(3,4,2);
+T1(:,:,1) = [2 2 1 0
+             2 2 1 0
+             4 4 2 0];
+T1(:,:,2) = [4 4 2 0
+            10 6 6 2
+             8 8 4 0];
+T1
+</pre><pre class="codeoutput">
+T1(:,:,1) =
+
+     2     2     1     0
+     2     2     1     0
+     4     4     2     0
+
+
+T1(:,:,2) =
+
+     4     4     2     0
+    10     6     6     2
+     8     8     4     0
+
+</pre><pre class="codeinput">phi1(2,:).*phi2(1,:).*phi3(2,:)  <span class="comment">% .* is an entry-wise multiplication</span>
+entry = sum(phi1(2,:).*phi2(1,:).*phi3(2,:))
+same_entry = T1(2,1,2)
+</pre><pre class="codeoutput">
+ans =
+
+     4     6
+
+
+entry =
+
+    10
+
+
+same_entry =
+
+    10
+
+</pre><h2>Matlab: cells<a name="7"></a></h2><p>In order to save phi1, phi2 and phi3 as one object, we can use <i>cells</i>.</p><pre class="codeinput">Phi = cell(3,1);
+length(Phi)
+Phi{1} = phi1;
+Phi{2} = phi2;
+Phi{3} = phi3;
+phi2
+Phi{2}
+</pre><pre class="codeoutput">
+ans =
+
+     3
+
+
+phi2 =
+
+     2     3
+     2     1
+     1     2
+     0     1
+
+
+ans =
+
+     2     3
+     2     1
+     1     2
+     0     1
+
+</pre><h2>EXERCISE 1: mode_1_kron<a name="8"></a></h2><p>Complete the following function mode_1_kron.m. It will be very useful for the next exercise. As input, it gets two matrices</p><p><img src="WORKSHEET2_CP_format_eq07770220844115722716.png" alt="$$ v \in R^{n \times k}$$ and $$w \in R^{m \times k}. $$"></p><p>The output should be the matrix</p><p><img src="WORKSHEET2_CP_format_eq15861529002604471550.png" alt="$$ h \in R^{nm \times k}$$ where $$h_{-,j} := w_{-,j} \otimes v_{-,j}. $$"></p><pre class="codeinput">correct_result = [1 0
+                  1 0
+                  2 0
+                  2 0
+                  2 2
+                  4 0]
+your_result = mode_1_kron(phi1,phi3)
+</pre><pre class="codeoutput">
+correct_result =
+
+     1     0
+     1     0
+     2     0
+     2     0
+     2     2
+     4     0
+
+
+your_result =
+
+ANSWER 1 MISSING
+
+</pre><h2>EXERCISE 2: CP_to_full_tensor<a name="9"></a></h2><p>Write a function that receives a cell Phi as above and returns the corresponding full tensor. This function is supposed to work for arbitray dimensional tensors. The reshape function can be very useful here.</p><pre class="codeinput">T1
+your_result = CP_to_full_tensor(Phi)
+</pre><pre class="codeoutput">
+T1(:,:,1) =
+
+     2     2     1     0
+     2     2     1     0
+     4     4     2     0
+
+
+T1(:,:,2) =
+
+     4     4     2     0
+    10     6     6     2
+     8     8     4     0
+
+
+your_result =
+
+ANSWER 2 MISSING
+
+</pre><h2>EXERCISE 3: verification<a name="10"></a></h2><p>Given a CP representation, we can now construct the full tensor.</p><p><b>Note however that in most applications one wants to avoid working with full tensors, since their size scales as <img src="WORKSHEET2_CP_format_eq09084410721681691307.png" alt="$$n^d$">.</b></p><p>So this should be used only for small tensors. Your task is now to make sure that your solution from exercise 2 is indeed correct. Repeated calls will generate new CP representations (you can use rng(s), <img src="WORKSHEET2_CP_format_eq07583818020428012325.png" alt="$$s \in N$">, to obtain the same random numbers each time).</p><pre class="codeinput">d = randi([4,6],1)
+r = randi([2,6],1)
+n = zeros(1,d);
+</pre><pre class="codeoutput">
+d =
+
+     4
+
+
+r =
+
+     2
+
+</pre><pre class="codeinput">Rho = cell(d,1);
+<span class="keyword">for</span> mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+<span class="keyword">end</span>
+n
+T2 = CP_to_full_tensor(Rho);
+T2(1:16)
+</pre><pre class="codeoutput">
+n =
+
+     2     2     3     2
+
+
+ans =
+
+ANSWER 2 MISSING
+
+</pre><h2>SOLUTION 3<a name="12"></a></h2><pre class="codeinput"><span class="string">'ANSWER 3 MISSING'</span>;
+</pre><h2>Low rank approximation<a name="13"></a></h2><p>Having understood CP tensor a bit better, we will now try to go the other way around. This means, given a full tensor, we want to construct a representation for this tensor. Unluckily, we do not know the CP rank of the tensor, which we hence either have to guess, or find out through try and error.</p><p>Should we underestime the rank, then we want to get as close to the best approximation as possible. For matrices, one could simply use the SVD again. For the CP format, we have to find something else.</p><pre class="codeinput">A2 = randn(4,3)*randn(3,4) + 0.1*randn(4,4) <span class="comment">% nearly rank 3</span>
+[U,S,V] = svd(A2);
+rank_3_best_approximation = U(:,1:3)*S(1:3,1:3)*V(:,1:3)'
+</pre><pre class="codeoutput">
+A2 =
+
+    0.8525    0.8804    1.9645    0.4665
+    0.9115   -0.4421   -0.6932    1.6212
+    0.3033    0.0065   -1.2822   -0.2732
+   -1.3850   -0.1788   -0.4614   -1.4768
+
+
+rank_3_best_approximation =
+
+    0.8644    0.8622    1.9695    0.4566
+    0.9256   -0.4636   -0.6873    1.6094
+    0.3077   -0.0002   -1.2803   -0.2768
+   -1.3670   -0.2062   -0.4538   -1.4919
+
+</pre><h2>Alternating least squares<a name="14"></a></h2><p>For tensors, the alternating least squares (ALS) method poses a convenient way to obtain a low rank approximation. The solution is not guaranteed to be a global optimimum, but, if convergent, is locally optimal. In the matrix case, alternating least squares can look like the following.</p><pre class="codeinput">r = 3;
+n = size(A2);
+X = randn(n(1),r); Y = randn(n(2),r);
+<span class="keyword">for</span> iter = 1:10
+    X = A2/(Y');
+    Y = (X\A2)';
+<span class="keyword">end</span>
+X*Y'
+</pre><pre class="codeoutput">
+ans =
+
+    0.8644    0.8622    1.9695    0.4566
+    0.9256   -0.4636   -0.6873    1.6094
+    0.3077   -0.0002   -1.2803   -0.2768
+   -1.3670   -0.2062   -0.4538   -1.4919
+
+</pre><p>As you can see (should you not be very unlucky), the result is the same as the best approximation above.</p><p>The simple call A/B is more elaborate as it may seem. In this case, it automatically returns the least squares solution</p><p><img src="WORKSHEET2_CP_format_eq01420458532919152623.png" alt="$$ H = \mathrm{argmin}_{\widetilde{H}} \ \|\widetilde{H} B - A\|_F$"></p><p>For more information, the Matlab documentation about mldivide can be helpful.</p><h2>Matlab: The permute function<a name="17"></a></h2><p>Matlab's permute function is very useful for the next exercise. However, other than the reshape function, its call requires to rearrange the underlying array of a tensor. It hence does not come free in cost (yet this is nothing to worry about here).</p><p>The permute function is easily explained through an example</p><pre class="codeinput">A = [1 3
+     2 4]
+permute(A,[2,1])
+A'
+</pre><pre class="codeoutput">
+A =
+
+     1     3
+     2     4
+
+
+ans =
+
+     1     2
+     3     4
+
+
+ans =
+
+     1     2
+     3     4
+
+</pre><p>We have just shifted the second to the first mode and vice versa. This is nothing else than a simple transposition. For tensors, we have more options:</p><pre class="codeinput">T3 = zeros(3,4,2);
+T3(:) = 1:3*4*2;
+P1 = permute(T3,[2,3,1]);
+P2 = permute(T3,[3,1,2]);
+size_T3 = size(T3)
+size_P1 = size(P1)
+size_P2 = size(P2)
+I = [2,3,1];
+T3(I(1),I(2),I(3))
+P1(I(2),I(3),I(1))
+P2(I(3),I(1),I(2))
+</pre><pre class="codeoutput">
+size_T3 =
+
+     3     4     2
+
+
+size_P1 =
+
+     4     2     3
+
+
+size_P2 =
+
+     2     3     4
+
+
+ans =
+
+     8
+
+
+ans =
+
+     8
+
+
+ans =
+
+     8
+
+</pre><h2>EXERCISE 4: permute<a name="19"></a></h2><p>Find a convenient way to determine the underlying array of permute(T,[3,2,1]) by hand without using Matlab's help or any other computation, for any 3 dimensional tensor T (for example T4).</p><pre class="codeinput">T4 = zeros(2,2,2);
+T4(:) = 1:8;
+<span class="comment">% P4 = permute(T4,[3,2,1]) % call this only once you want to verify your</span>
+<span class="comment">% solution</span>
+<span class="comment">% P4(:)'</span>
+</pre><h2>EXERCISE* 5: CP_approximation<a name="20"></a></h2><p>Complete the following program, which, given a rank r and full tensor T, performs a least squares algorithm analogous to the matrix version in order to construct a CP approximation.</p><p>The code does not have to be efficient from the start, but once the worksheet is finished, you may want to try to optimize its performance. An optimal performance scales linearly in the dimension d. (about 20 lines of lucid code are sufficient to complete CP_approximation)</p><p><i>This exercise can be more difficult to complete. If you have trouble, but would rather like to go on, then CP_approximation_solution.m provides a solution, since it is required for the remaining part.</i></p><pre class="codeinput">d = 4
+r = 3
+n = zeros(1,d);
+Rho = cell(d,1);
+<span class="keyword">for</span> mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+<span class="keyword">end</span>
+n
+T5 = CP_to_full_tensor(Rho); <span class="comment">% construct full tensor of rank r</span>
+
+Rho_eigen_correct_rank = CP_approximation(T5,r,100); <span class="comment">% approximate with rank r</span>
+
+<span class="keyword">if</span> ~isequal(Rho_eigen_correct_rank,<span class="string">'ANSWER 5 MISSING'</span>)
+    T5_subtensor = T5(:,:,2,2) <span class="comment">% subtensor of full tensor</span>
+
+    <span class="comment">% construct full tensor of approximate CP representation:</span>
+    T_eigen_correct_rank = CP_to_full_tensor(Rho_eigen_correct_rank);
+    <span class="comment">% this should (mostly) be the same as above:</span>
+    T_eigen_correct_rank_subtensor = T_eigen_correct_rank(:,:,2,2)
+
+    <span class="comment">% approximate with rank r-1:</span>
+    Rho_eigen_lower_rank = CP_approximation(T5,r-1,100);
+    <span class="comment">% construct full tensor of approximate CP representation:</span>
+    T_eigen_lower_rank = CP_to_full_tensor(Rho_eigen_lower_rank);
+    <span class="comment">% this will only be close to the original tensor:</span>
+    T_eigen_lower_rank_subtensor = T_eigen_lower_rank(:,:,2,2)
+<span class="keyword">else</span>
+    <span class="string">'ANSWER 5 MISSING'</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+d =
+
+     4
+
+
+r =
+
+     3
+
+
+n =
+
+     5     5     2     4
+
+
+ans =
+
+ANSWER 5 MISSING
+
+</pre><h2>EXERCISE* 6: rank 2 approximation of a rank 3 tensor<a name="21"></a></h2><p>The CP format has a further unwelcome property, namely that the set of rank r tensor is not closed. One can show that the following tensor T6 is indeed a rank 3 tensor.</p><p>However, what happens in the following example? You may increase max_iter up to 50000.</p><pre class="codeinput">max_iter = 200;
+Nu = cell(1,3);
+Nu{1} = [2 2 0
+         0 0 2];
+Nu{2} = [2 0 2
+         0 2 0];
+Nu{3} = [0 2 2
+         2 0 0];
+T6 = CP_to_full_tensor(Nu)
+</pre><pre class="codeoutput">
+T6 =
+
+ANSWER 2 MISSING
+
+</pre><pre class="codeinput">Rank_2_appr = CP_approximation(T6,2,max_iter);
+<span class="keyword">if</span> ~isequal(Rank_2_appr,<span class="string">'ANSWER 5 MISSING'</span>)
+    Rank_2_appr{1}
+    Rank_2_appr{2}
+    Rank_2_appr{3}
+    Rank_2_full_tensor = CP_to_full_tensor(Rank_2_appr)
+<span class="keyword">end</span>
+</pre><h2>Generic rank of CP tensors<a name="23"></a></h2><p>Since we have a tool now to contruct a low rank approximation, we can use it to at least obtain upper bounds for the CP-rank. A trivial upper bound is (why?)</p><p><img src="WORKSHEET2_CP_format_eq07938923209388005838.png" alt="$$\mathrm{rank}(T) < \prod_{\mu=1}^d n_\mu,$$"></p><p>which can quickly be reduced to the better bound (why?)</p><p><img src="WORKSHEET2_CP_format_eq09328099615858878218.png" alt="$$\mathrm{rank}(T) < \frac{\prod_{\mu=1}^d n_{\mu}}{\max(n)}.$"></p><p>While the generic rank of a matrix equals the minimal mode size, the behaviour for CP tensors is far more complex and only slightly understood. Some insight can be gained through the experiment below.</p><pre class="codeinput">rank(rand(4,4))
+rank(rand(4,3))
+rank(rand(2,3))
+rank(rand(3,2)*rand(2,3))
+</pre><pre class="codeoutput">
+ans =
+
+     4
+
+
+ans =
+
+     3
+
+
+ans =
+
+     2
+
+
+ans =
+
+     2
+
+</pre><h2>EXPERIMENT* 1: generic rank<a name="24"></a></h2><p>Try to increase the rank r until (almost) all approximations are successful (say with an error lower than 1e-4). Also document the highest value for which (almost) no approximations are successful. Modify the mode sizes as well. Remember that you can evaluate a single section with control+enter.</p><pre class="codeinput">N = 5;
+r = 10;
+T = rand(N,N,N);
+T(:,:,2)
+
+Phi = CP_approximation(T,r,100);
+<span class="keyword">if</span> ~isequal(Phi,<span class="string">'ANSWER 5 MISSING'</span>)
+    T_appr = CP_to_full_tensor(Phi);
+    T_appr(:,:,2)
+    Residual = T(:,:,2)-T_appr(:,:,2)
+    norm(Residual(:))
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans =
+
+    0.0544    0.2390    0.4015    0.0746    0.3754
+    0.2600    0.7802    0.4624    0.5911    0.5460
+    0.5891    0.6173    0.7073    0.4460    0.1117
+    0.4797    0.1441    0.4012    0.9266    0.9045
+    0.1987    0.7161    0.0144    0.0949    0.6333
+
+</pre><h2>Next: Tucker_format.m<a name="25"></a></h2><p>open Tucker_format.m and continue there</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% CP format
+% _Written by Sebastian Kraemer, IGPM at RWTH Aachen University_
+%
+% _The CP decomposition (F. L. Hitchcock (1927)) is historically also known as
+% PARAFAC (Harshman, Richard A. (1970)) or CANDECOMP (Carroll, J. D.;
+% Chang, J. (1970))._
+%
+% The CP format is a straight-forward generalization of the low rank
+% decompostion for matrices (which does not mean that it easy to work with). 
+% Likewise, the (CP-)rank of a tensor is defined as
+% equivalent to the rank of matrices:
+%
+% $$ \mathrm{rank}(A) = \min_{r \in N} \ \{ k \in N \mid \exists \phi_{1,j} \in R^{n_1}, \phi_{2,j} \in R^{n_2},\ j = 1,\ldots,k,\quad A = \sum_{j = 1}^k \phi_{1,j} \ \phi_{2,j}^T \} $$
+%
+% $$ \mathrm{rank}(T) := \min_{r \in N} \ \{ k \in N \mid \exists \phi_{\mu,j} \in R^{n_\mu}, \mu =
+% 1,\ldots,d,\ j = 1,\ldots,k,\quad T = \sum_{j = 1}^k \phi_{1,j} \otimes \ldots \otimes \phi_{d,j} \} $$
+%%
+clear all % this clears all variables of their values
+
+%% Matlab: svd
+% For matrices, the well known SVD can be used to construct a low rank
+% decomposition:
+A1 = [2 3 5
+      0 1 2
+      4 5 8]
+r = rank(A1) % Note that this call already uses an svd. We will later avoid that.
+[U,S,V] = svd(A1);
+%%
+S
+X = U(:,1:2)*S(1:2,1:2)
+Y = V(:,1:2)
+
+X*Y'
+
+%% Low rank decomposition in CP format
+% Unfortunately, even to calculate the CP-rank of a tensor is NP-hard.
+% Accordingly, there is no rank() function for tensors implemented in Matlab.
+%
+% However, one does not always have to use the rank, but may work with a
+% slightly higher number of summands. These summands may be saved as
+% matrices, where each first mode corresponds to the tensor mode size and the
+% second one to the summation index. Then, with reference to the upper notation,
+%
+% $${\tt phi1(i,j)} = (\phi_{1,j})_i, \quad {\tt phi2(i,j)} = (\phi_{2,j})_i, \ \ldots$$
+%
+% For example, the following three
+% matrices define a CP-representation for the tensor T1.
+phi1 = [1,0; 1,2; 2,0]
+phi2 = [2,3; 2,1; 1,2; 0,1]
+phi3 = [1,0; 2,1]
+%%
+T1 = zeros(3,4,2);
+T1(:,:,1) = [2 2 1 0
+             2 2 1 0
+             4 4 2 0];
+T1(:,:,2) = [4 4 2 0
+            10 6 6 2
+             8 8 4 0];
+T1
+%%
+phi1(2,:).*phi2(1,:).*phi3(2,:)  % .* is an entry-wise multiplication
+entry = sum(phi1(2,:).*phi2(1,:).*phi3(2,:))
+same_entry = T1(2,1,2)
+
+%% Matlab: cells
+% In order to save phi1, phi2 and phi3 as one object, we can use _cells_.
+Phi = cell(3,1);
+length(Phi)
+Phi{1} = phi1;
+Phi{2} = phi2;
+Phi{3} = phi3;
+phi2
+Phi{2}
+
+%% EXERCISE 1: mode_1_kron
+% Complete the following function mode_1_kron.m. It will be very useful for the next exercise.
+% As input, it gets two matrices
+%
+% $$ v \in R^{n \times k}$$ and $$w \in R^{m \times k}. $$
+%
+% The output should be the matrix 
+%
+% $$ h \in R^{nm \times k}$$ where $$h_{-,j} := w_{-,j} \otimes v_{-,j}. $$
+correct_result = [1 0
+                  1 0
+                  2 0
+                  2 0
+                  2 2
+                  4 0]
+your_result = mode_1_kron(phi1,phi3)
+
+%% EXERCISE 2: CP_to_full_tensor
+% Write a function that receives a cell Phi as above and returns the corresponding full tensor.
+% This function is supposed to work for arbitray dimensional tensors. The reshape
+% function can be very useful here.
+T1
+your_result = CP_to_full_tensor(Phi)
+
+%% EXERCISE 3: verification
+% Given a CP representation, we can now construct the full tensor. 
+%
+% *Note however that in most applications one wants to avoid working with full tensors,
+% since their size scales as $$n^d$.*
+%
+% So this should be used only for small tensors. Your task is now to make
+% sure that your solution from exercise 2 is indeed correct. Repeated calls
+% will generate new CP representations (you can use rng(s), $$s \in N$, to obtain the same random
+% numbers each time).
+d = randi([4,6],1)
+r = randi([2,6],1)
+n = zeros(1,d);
+%%
+Rho = cell(d,1);
+for mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+end
+n
+T2 = CP_to_full_tensor(Rho);
+T2(1:16)
+
+%% SOLUTION 3
+'ANSWER 3 MISSING';
+
+%% Low rank approximation
+% Having understood CP tensor a bit better, we will now try to go the other way around.
+% This means, given a full tensor, we want to construct a representation
+% for this tensor. Unluckily, we do not know the CP rank of the tensor,
+% which we hence either have to guess, or find out through try and error. 
+%
+% Should we underestime the rank, then we want to get as close to the best
+% approximation as possible. For matrices, one could simply use the SVD
+% again. For the CP format, we have to find something else.
+A2 = randn(4,3)*randn(3,4) + 0.1*randn(4,4) % nearly rank 3
+[U,S,V] = svd(A2);
+rank_3_best_approximation = U(:,1:3)*S(1:3,1:3)*V(:,1:3)'
+
+%% Alternating least squares
+% For tensors, the alternating least squares (ALS) method poses a convenient way to obtain a
+% low rank approximation. The solution is not guaranteed to be a global
+% optimimum, but, if convergent, is locally optimal. In the matrix case,
+% alternating least squares can look like the following.
+%
+r = 3;
+n = size(A2);
+X = randn(n(1),r); Y = randn(n(2),r);
+for iter = 1:10
+    X = A2/(Y');
+    Y = (X\A2)';
+end
+X*Y'
+
+%%
+% As you can see (should you not be very unlucky), the result is the same as
+% the best approximation above.
+
+%%
+% The simple call A/B is more elaborate as it may seem. In this case, it automatically
+% returns the least squares solution 
+%
+% $$ H = \mathrm{argmin}_{\widetilde{H}} \ \|\widetilde{H} B - A\|_F$
+%
+% For more information, the Matlab documentation about mldivide can be
+% helpful.
+
+%% Matlab: The permute function
+% Matlab's permute function is very useful for the next exercise. However,
+% other than the reshape function, its call requires to rearrange the
+% underlying array of a tensor. It hence does not come free in cost
+% (yet this is nothing to worry about here).
+%
+% The permute function is easily explained through an example
+A = [1 3
+     2 4]
+permute(A,[2,1])
+A'
+
+%%
+% We have just shifted the second to the first mode and vice versa. This is
+% nothing else than a simple transposition. For tensors, we have more
+% options:
+T3 = zeros(3,4,2);
+T3(:) = 1:3*4*2;
+P1 = permute(T3,[2,3,1]);
+P2 = permute(T3,[3,1,2]);
+size_T3 = size(T3)
+size_P1 = size(P1)
+size_P2 = size(P2)
+I = [2,3,1];
+T3(I(1),I(2),I(3))
+P1(I(2),I(3),I(1))
+P2(I(3),I(1),I(2))
+
+%% EXERCISE 4: permute
+% Find a convenient way to determine the underlying array of permute(T,[3,2,1]) by hand
+% without using Matlab's help or any other computation, for any 3
+% dimensional tensor T (for example T4).
+T4 = zeros(2,2,2);
+T4(:) = 1:8;
+% P4 = permute(T4,[3,2,1]) % call this only once you want to verify your
+% solution
+% P4(:)'
+
+%% EXERCISE* 5: CP_approximation
+% Complete the following program, which, given a rank r and full tensor T,
+% performs a least squares algorithm analogous to the matrix version in
+% order to construct a CP approximation.
+%
+% The code does not have to be efficient from the start, but once the worksheet is finished,
+% you may want to try to optimize its performance. An optimal performance
+% scales linearly in the dimension d. (about 20 lines of lucid code are
+% sufficient to complete CP_approximation)
+%
+% _This exercise can be more difficult to complete. If you have trouble,
+% but would rather like to go on, then CP_approximation_solution.m provides
+% a solution, since it is required for the remaining part._
+%
+d = 4
+r = 3
+n = zeros(1,d);
+Rho = cell(d,1);
+for mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+end
+n
+T5 = CP_to_full_tensor(Rho); % construct full tensor of rank r
+
+Rho_eigen_correct_rank = CP_approximation(T5,r,100); % approximate with rank r
+
+if ~isequal(Rho_eigen_correct_rank,'ANSWER 5 MISSING')
+    T5_subtensor = T5(:,:,2,2) % subtensor of full tensor
+    
+    % construct full tensor of approximate CP representation:
+    T_eigen_correct_rank = CP_to_full_tensor(Rho_eigen_correct_rank); 
+    % this should (mostly) be the same as above:
+    T_eigen_correct_rank_subtensor = T_eigen_correct_rank(:,:,2,2) 
+    
+    % approximate with rank r-1:
+    Rho_eigen_lower_rank = CP_approximation(T5,r-1,100); 
+    % construct full tensor of approximate CP representation:
+    T_eigen_lower_rank = CP_to_full_tensor(Rho_eigen_lower_rank);
+    % this will only be close to the original tensor:
+    T_eigen_lower_rank_subtensor = T_eigen_lower_rank(:,:,2,2) 
+else
+    'ANSWER 5 MISSING'
+end
+
+%% EXERCISE* 6: rank 2 approximation of a rank 3 tensor
+% The CP format has a further unwelcome property, namely that the set of
+% rank r tensor is not closed. One can show that the following tensor T6 is
+% indeed a rank 3 tensor.
+%
+% However, what happens in the following example? You may increase max_iter
+% up to 50000.
+max_iter = 200;
+Nu = cell(1,3);
+Nu{1} = [2 2 0
+         0 0 2];
+Nu{2} = [2 0 2
+         0 2 0];
+Nu{3} = [0 2 2
+         2 0 0];
+T6 = CP_to_full_tensor(Nu)  
+%%
+Rank_2_appr = CP_approximation(T6,2,max_iter);
+if ~isequal(Rank_2_appr,'ANSWER 5 MISSING')
+    Rank_2_appr{1}
+    Rank_2_appr{2}
+    Rank_2_appr{3}
+    Rank_2_full_tensor = CP_to_full_tensor(Rank_2_appr)
+end    
+
+%% Generic rank of CP tensors
+% Since we have a tool now to contruct a low rank approximation, we can use
+% it to at least obtain upper bounds for the CP-rank. A trivial upper bound
+% is (why?)
+%
+% $$\mathrm{rank}(T) < \prod_{\mu=1}^d n_\mu,$$
+%
+% which can quickly be reduced to the better bound (why?)
+%
+% $$\mathrm{rank}(T) < \frac{\prod_{\mu=1}^d n_{\mu}}{\max(n)}.$
+%
+% While the generic rank of a matrix equals the minimal mode size, the
+% behaviour for CP tensors is far more complex and only slightly
+% understood. Some insight can be gained through the experiment below.
+rank(rand(4,4))
+rank(rand(4,3))
+rank(rand(2,3))
+rank(rand(3,2)*rand(2,3))
+
+%% EXPERIMENT* 1: generic rank
+% Try to increase the rank r until (almost) all approximations are successful (say
+% with an error lower than 1e-4). Also document the highest value for which
+% (almost) no approximations are successful. Modify the mode sizes as
+% well. Remember that you can evaluate a single section with control+enter.
+N = 5;
+r = 10;
+T = rand(N,N,N);
+T(:,:,2)
+
+Phi = CP_approximation(T,r,100);
+if ~isequal(Phi,'ANSWER 5 MISSING')
+    T_appr = CP_to_full_tensor(Phi);
+    T_appr(:,:,2)
+    Residual = T(:,:,2)-T_appr(:,:,2)
+    norm(Residual(:))
+end
+
+%% Next: Tucker_format.m
+% open Tucker_format.m and continue there
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

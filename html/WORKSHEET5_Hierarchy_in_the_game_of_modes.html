@@ -1,0 +1,236 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Hierarchy in the game of modes (extra worksheet)</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-06-03"><meta name="DC.source" content="WORKSHEET5_Hierarchy_in_the_game_of_modes.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Hierarchy in the game of modes (extra worksheet)</h1><!--introduction--><p><i>Written by Sebastian Kraemer, IGPM at RWTH Aachen University</i></p><p><i>Hierarchical tensors have been introduced by L. Grasedyck (2010).</i></p><p>To understand why hierarchical decompositions work, essentially, only two aspects are important:</p><div><ul><li>Each matrix can be split into a product of two matrices (where the rank determines the joint mode size between these) without loss of information (or via minimal loss of accuracy via the SVD):</li></ul></div><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq08871954560433271545.png" alt="$$ rank(A) = r \quad \Rightarrow \quad A = XY^T, \quad X \in R^{n_1 \times r}, \ Y \in R^{n_2 \times r} $$"></p><div><ul><li>Any orthogonal (norm preserving) mapping does not change singular values and hence not also the rank of a matrix. We can even write this down explicitly:</li></ul></div><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq15195321359150956791.png" alt="$$ $$ for any column orthogonal matrix $$Q$$ it holds: $$ $$"></p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq09506946301656357747.png" alt="$$ svd(A) = (U,\Sigma,V) \quad \Rightarrow \quad svd(Q A) = (Q U,\Sigma,V) $$"></p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq04212396749702637687.png" alt="$$ svd(T^{(2)}) = (U,\Sigma,V) \quad \Rightarrow \quad svd((T \times_2&#xA;Q)^{(2)}) = (U,\Sigma,(Q \otimes I) V) $$"></p><p>We can very conveniantly denote any object appearing in our decomposition just by its mode sizes. Keep in mind that both the reshape and permute operation only relocate entries. These operations can simply be represented by a corresponding rearrangement of mode sizes.</p><p>A low rank matrix decomposition of A simply follows this scheme:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq05397746774646546425.png" alt="$$ (n_1,n_2) \rightarrow (n_1,r) (r,n_2) $$"></p><p>We, in a certain way, make use of the Einstein notation, that is, every index appearing twice implies a summation. Here,</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq00447509961587325758.png" alt="$$ A = (n_1,n_2), \quad A = XY^T,\ X = (n_1,r),\ Y = (n_2,r) $$"></p><p>Whereas an actual SVD looks like:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq05184706142356042698.png" alt="$$ (n_1,n_2) \rightarrow (n_1,r) (r,r) (r,n_2) $$"></p><p>Now, <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq03852937430985959453.png" alt="$(n_1,r_1)$"> and <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq09798567780790155464.png" alt="$(r_1,n_2)$"> are known to be column and row orthogonal, respectively. We can denote this as follows:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq12320219133475628263.png" alt="$$ U = (n_1,\overline{r}),\quad \Sigma = (r,r), \quad V = (n_2,\overline{r}) $$"></p><p>Note that we have already transposed (permuted) the entries of <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq02739270504201626537.png" alt="$V$">. For the sake of simplicity, we are always going to multiply <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq11513513746854591617.png" alt="$\Sigma$"> and <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq10011478281686201420.png" alt="$V^T$">:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq09988770592096942127.png" alt="$$ (n_1,n_2) \rightarrow (n_1,\overline{r}) (r,n_2) $$"></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">The Tucker tree</a></li><li><a href="#3">EXERCISE* 1: 4-dimensional Tucker decomposition</a></li><li><a href="#4">EXERCISE* 2: Tucker SVD</a></li><li><a href="#5">EXERCISE* 3: Tensor Train SVD</a></li><li><a href="#6">EXERCISE** 4: Herarchical tensor decomposition</a></li><li><a href="#7">EXERCISE** 5: Standard representations</a></li></ul></div><pre class="codeinput">clear <span class="string">all</span> <span class="comment">% this clears all variables of their values</span>
+</pre><h2>The Tucker tree<a name="2"></a></h2><p>We can now write down the first step required for a Tucker decomposition:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq01109483772419037415.png" alt="$$ T = (n_1,n_2,n_3) \rightarrow (n_1,\overline{r_1}) (r_1,n_2,n_3) $$"></p><p>What you actually need to do in this first step is a reshaping of <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq14047577632175690031.png" alt="$T$">, then an SVD of <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq14047577632175690031.png" alt="$T$">, and subsequently multiply <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq11513513746854591617.png" alt="$\Sigma$"> and <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq10011478281686201420.png" alt="$V^T$"> and reshape this again. But after all, there is no more information gained by writing this down every time. The next step then is</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq00569671750921193283.png" alt="$$ (r_1,n_2,n_3) \rightarrow (n_2,\overline{r_2})&#xA;(r_1,r_2,n_3) $$"></p><p>We have written <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq17345260930282413950.png" alt="$r_2$"> in this step, so we should better justify that. Therefor, just note that <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq18106531771947297470.png" alt="$(n_1,\overline{r_1})$"> is an orthogonal matrix (cf. item 2 above).</p><p>The final step then is</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq09939123718498386767.png" alt="$$ (r_1,r_2,n_3) \rightarrow (n_3,\overline{r_3}) (r_1,r_2,r_3). $$"></p><p>Putting everything together:</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq02345901767515094592.png" alt="$$ T = (n_1,n_2,n_3) = (n_1,\overline{r_1}) (n_2,\overline{r_2})&#xA;(n_3,\overline{r_3}) (r_1,r_2,r_3) $$"></p><p>Simple as that, we know that</p><p><img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq16648185949250856296.png" alt="$$ U_1 = (n_1,\overline{r_1}), \ U_2 = (n_2,\overline{r_2}), \ U_3 =&#xA;(n_3,\overline{r_3}), \quad C = (r_1,r_2,r_3) $$"></p><p>must be our Tucker decomposition, since at no step, we have lost information. Besides, nothing stops us from using truncated SVDs. Due to the orthogonalization, the loss of accuracy in each step will as small as possible. However, this does not mean that the <b>hole</b> decomposition is optimal concerning this matter. But one can show that it is close to optimal.</p><h2>EXERCISE* 1: 4-dimensional Tucker decomposition<a name="3"></a></h2><p>Write down analogous steps for a Tucker decomposition of a 4 dimensional tensor.</p><h2>EXERCISE* 2: Tucker SVD<a name="4"></a></h2><p>We have seen that the matrices <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq08411517642164916005.png" alt="$U_1,\ldots,U_d$"> as well as the core <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq03986222445007418011.png" alt="$C$"> are easy to calculate even without the previous consideration. Yet, we may as well construct a decomposition in this fashion. Create a function as separate file which does that.</p><pre class="codeinput">d = randi([4,6],1)
+r = randi([2,6],1)
+n = zeros(1,d);
+Rho = cell(d,1);
+<span class="keyword">for</span> mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+<span class="keyword">end</span>
+n
+T2 = CP_to_full_tensor(Rho);
+<span class="comment">% Rho_eigen = Tucker_SVD(T2)</span>
+</pre><pre class="codeoutput">
+d =
+
+     4
+
+
+r =
+
+     6
+
+
+n =
+
+     3     2     5     2
+
+</pre><h2>EXERCISE* 3: Tensor Train SVD<a name="5"></a></h2><p>In the worksheet Tensor_Train_format, the algorithm for the TT-SVD is already given. Write down the steps in upper notation for a 4 dimensional tensor.</p><h2>EXERCISE** 4: Herarchical tensor decomposition<a name="6"></a></h2><p>You have seen two quite different ways to decompose a tensor. Can you think of another or continuing way? (you will need at least a 4 dimensional tensor). To which matricizations do the accouring summation indices correspond? However, be careful with orthogonality. It may not be as simple as above. Implement such a further decomposition for a fixed scheme.</p><h2>EXERCISE** 5: Standard representations<a name="7"></a></h2><p>We have made life easier by multiplying <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq11513513746854591617.png" alt="$\Sigma$"> and <img src="WORKSHEET5_Hierarchy_in_the_game_of_modes_eq10011478281686201420.png" alt="$V^T$">. Unfortunately, the singular values will not appear explicitely as in matrix SVD anymore. Repeat the decompositions above, but this time keep the diagonal matrices such that at the end, they appear in the decomposition. Again, be careful with orthogonality constraints.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Hierarchy in the game of modes (extra worksheet)
+% _Written by Sebastian Kraemer, IGPM at RWTH Aachen University_
+%
+% _Hierarchical tensors have been introduced by L. Grasedyck (2010)._
+%
+% To understand why hierarchical decompositions work, essentially, only two aspects are important:
+%
+% * Each matrix can be split into a product of two matrices (where the rank 
+% determines the joint mode size between these) without loss of
+% information (or via minimal loss of accuracy via the SVD):
+%
+% $$ rank(A) = r \quad \Rightarrow \quad A = XY^T, \quad X \in R^{n_1 \times r}, \ Y \in R^{n_2 \times r} $$
+%
+% * Any orthogonal (norm preserving) mapping does not change singular values and hence not also
+% the rank of a matrix. We can even write this down explicitly: 
+%
+% $$ $$ for any column orthogonal matrix $$Q$$ it holds: $$ $$
+%
+% $$ svd(A) = (U,\Sigma,V) \quad \Rightarrow \quad svd(Q A) = (Q U,\Sigma,V) $$
+%
+% $$ svd(T^{(2)}) = (U,\Sigma,V) \quad \Rightarrow \quad svd((T \times_2
+% Q)^{(2)}) = (U,\Sigma,(Q \otimes I) V) $$
+%
+%
+% We can very conveniantly denote any object appearing in our decomposition
+% just by its mode sizes. Keep in mind that both the
+% reshape and permute operation only relocate entries. These operations can simply be
+% represented by a corresponding rearrangement of mode sizes. 
+%
+% A low rank matrix decomposition of A simply follows this scheme:
+%
+% $$ (n_1,n_2) \rightarrow (n_1,r) (r,n_2) $$
+%
+% We, in a certain way, make use of the Einstein notation, that is, every index
+% appearing twice implies a summation. Here,
+%
+% $$ A = (n_1,n_2), \quad A = XY^T,\ X = (n_1,r),\ Y = (n_2,r) $$
+%
+% Whereas an actual SVD looks like:
+%
+% $$ (n_1,n_2) \rightarrow (n_1,r) (r,r) (r,n_2) $$
+%
+% Now, $(n_1,r_1)$ and $(r_1,n_2)$ are known to be column and row
+% orthogonal, respectively. We can denote this as follows:
+%
+% $$ U = (n_1,\overline{r}),\quad \Sigma = (r,r), \quad V = (n_2,\overline{r}) $$
+%
+% Note that we have already transposed (permuted) the entries of $V$.
+% For the sake of simplicity, we are always going to multiply $\Sigma$ and $V^T$:
+%
+% $$ (n_1,n_2) \rightarrow (n_1,\overline{r}) (r,n_2) $$
+%%
+clear all % this clears all variables of their values
+
+%% The Tucker tree
+% We can now write down the first step required for a Tucker
+% decomposition:
+%
+% $$ T = (n_1,n_2,n_3) \rightarrow (n_1,\overline{r_1}) (r_1,n_2,n_3) $$
+%
+% What you actually need to do in this first step is a reshaping of $T$,
+% then an SVD of $T$, and subsequently multiply $\Sigma$ and $V^T$ and reshape this again.
+% But after all, there is no more information gained by writing this down
+% every time. The next step then is
+%
+% $$ (r_1,n_2,n_3) \rightarrow (n_2,\overline{r_2})
+% (r_1,r_2,n_3) $$
+% 
+% We have written $r_2$ in this step, so we should better justify that.
+% Therefor, just note that $(n_1,\overline{r_1})$ is an orthogonal matrix
+% (cf. item 2 above).
+%
+% The final step then is
+%
+% $$ (r_1,r_2,n_3) \rightarrow (n_3,\overline{r_3}) (r_1,r_2,r_3). $$
+%
+% Putting everything together:
+%
+% $$ T = (n_1,n_2,n_3) = (n_1,\overline{r_1}) (n_2,\overline{r_2})
+% (n_3,\overline{r_3}) (r_1,r_2,r_3) $$
+%
+% Simple as that, we know that
+%
+% $$ U_1 = (n_1,\overline{r_1}), \ U_2 = (n_2,\overline{r_2}), \ U_3 =
+% (n_3,\overline{r_3}), \quad C = (r_1,r_2,r_3) $$
+%
+% must be our Tucker decomposition, since at no step, we have lost
+% information. Besides, nothing stops us from using truncated SVDs. Due to the orthogonalization,
+% the loss of accuracy in each step will as small as possible. 
+% However, this does not mean that the *hole* decomposition is optimal concerning this matter.
+% But one can show that it is close to optimal.
+
+%% EXERCISE* 1: 4-dimensional Tucker decomposition
+% Write down analogous steps for a Tucker decomposition of a 4 dimensional
+% tensor.
+
+%% EXERCISE* 2: Tucker SVD
+% We have seen that the matrices $U_1,\ldots,U_d$ as well as the core $C$
+% are easy to calculate even without the previous consideration. Yet, we
+% may as well construct a decomposition in this fashion. Create a function as
+% separate file which does that.
+d = randi([4,6],1)
+r = randi([2,6],1)
+n = zeros(1,d);
+Rho = cell(d,1);
+for mu = 1:d
+    n(mu) = randi([2,5],1);
+    Rho{mu} = randn(n(mu),r);
+end
+n
+T2 = CP_to_full_tensor(Rho);
+% Rho_eigen = Tucker_SVD(T2)
+
+%% EXERCISE* 3: Tensor Train SVD
+% In the worksheet Tensor_Train_format, the algorithm for the TT-SVD is
+% already given. Write down the steps in upper notation for a 4
+% dimensional tensor.
+
+%% EXERCISE** 4: Herarchical tensor decomposition
+% You have seen two quite different ways to decompose a tensor. Can you
+% think of another or continuing way? (you will need at least a 4 dimensional tensor).
+% To which matricizations do the accouring summation indices correspond?
+% However, be careful with orthogonality. It may not be as simple as above.
+% Implement such a further decomposition for a fixed scheme.
+
+%% EXERCISE** 5: Standard representations
+% We have made life easier by multiplying $\Sigma$ and $V^T$.
+% Unfortunately, the singular values will not appear explicitely as in
+% matrix SVD anymore. Repeat the decompositions above, but this time keep
+% the diagonal matrices such that at the end, they appear in the
+% decomposition. Again, be careful with orthogonality constraints.
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

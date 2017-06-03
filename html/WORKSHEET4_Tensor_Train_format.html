@@ -1,0 +1,834 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Tensor Train format</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-06-03"><meta name="DC.source" content="WORKSHEET4_Tensor_Train_format.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Tensor Train format</h1><!--introduction--><p><i>Written by Sebastian Kraemer, IGPM at RWTH Aachen University</i></p><p><i>The TT decomposition was first introduced to mathematics by I.V. Oseledets (2011)</i></p><p>The Tensor Train (short: TT) format may appear complicated, but in many aspects it is one of the most convenient formats.</p><p><img src="WORKSHEET4_Tensor_Train_format_eq02375060426018275649.png" alt="$$ $$ Similar to the Tucker format, the TT-ranks $r \in R^{d-1}$ are&#xA;easily calculated as $$ $$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq17979256467767901548.png" alt="$$ r_{\mu}(T) = \mathrm{TT-rank}_{\mu}(T) = \mathrm{rank}(T^{(1,\ldots,\mu)}) $$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq05220992290141086605.png" alt="$$ $$ where the matrix $$ T^{(1,\ldots,\mu)} $$ is defined via (again using Matlab code)&#xA;$$ $$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq13281616872483683288.png" alt="$$ T^{(1,\ldots,\mu)} :=&#xA;{\tt&#xA;reshape(T,[1:mu,mu+1:d])}&#xA;$$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq03103329488368042887.png" alt="$$ $$ For simplicity, one sets $r_0 = r_d = 1$. It then follows that there exist cores $$ $$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq06017023106195552814.png" alt="$$ G_\mu: \{1,\ldots,n_\mu\} \mapsto R^{r_{\mu-1} \times r_{\mu}},\ \mu = 1,\ldots,d $$ such that $$ T_I = G_1(i_1) \cdot \ldots \cdot G_d(i_d), \quad \forall I = (i_1,\ldots,i_d). $$"></p><p><img src="WORKSHEET4_Tensor_Train_format_eq14925252998784191919.png" alt="$$ $$ Note that since Matlab starts indexing at $1$, we need to shift $r$ by one.&#xA;$$ $$"></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Numerical rank</a></li><li><a href="#3">TT-SVD</a></li><li><a href="#5">EXERCISE 1: entrywise evaluation</a></li><li><a href="#6">Core product</a></li><li><a href="#10">EXERCISE 2: About the core product:</a></li><li><a href="#11">Left and right interface matrcies</a></li><li><a href="#17">Left- and right-orthogonality</a></li><li><a href="#27">EXERCISE 3: norm of a TT represented tensor</a></li><li><a href="#28">SOLUTION 3</a></li><li><a href="#29">EXERCISE 4: comparision of CP, Tucker and TT format</a></li><li><a href="#30">EXERCISE* 5: compression within a TT representation</a></li><li><a href="#34">SOLUTION 5</a></li></ul></div><pre class="codeinput">clear <span class="string">all</span> <span class="comment">% this clears all variables of their values</span>
+</pre><h2>Numerical rank<a name="2"></a></h2><p>Before we start, one should recall the trouble one can have with rank estimates. In the second line, the value 1e-16 might be the result of round-off errors or simply correct.</p><pre class="codeinput">rank(diag([1,1e-15]))
+rank(diag([1,1e-16]))
+</pre><pre class="codeoutput">
+ans =
+
+     2
+
+
+ans =
+
+     1
+
+</pre><h2>TT-SVD<a name="3"></a></h2><p>The following procedure constructs a TT-representation for any input tensor T. Since the input tensor may have low rank, we require a truncation tolerace <i>tol</i> , in order to avoid the trouble indicated above (this is exactly what the rank function does, but we are going to do this ourselves).</p><p>There is no need yet to fully understand this computation. In the next exercise, we only want to whether it is correct. For more insight, have a look at the worksheet <i>Hierarchy in the game of modes</i>.</p><pre class="codeinput">tol = 1e-15;
+T1 = randn(4,3,4,2);
+
+n = size(T1)
+d = length(n)
+G = cell(1,d);
+r = zeros(1,d+1);
+r(1) = 1; r(d+1) = 1; <span class="comment">% note the shift</span>
+
+B = T1;
+<span class="keyword">for</span> mu = 1:d
+    [U,S,V] = svd(reshape(B,[n(mu)*r(mu),prod(n(mu+1:d))]),0);
+    r(mu+1) = sum(diag(S) &gt; tol); <span class="comment">% count singular values larger than tol</span>
+    G{mu} = permute( reshape(U,[r(mu),n(mu),r(mu+1)]) , [1,3,2]);
+    B = S*V';
+<span class="keyword">end</span>
+G{d} = G{d} * B; <span class="comment">% B at this point is a scalar</span>
+r
+</pre><pre class="codeoutput">
+n =
+
+     4     3     4     2
+
+
+d =
+
+     4
+
+
+r =
+
+     1     4     8     2     1
+
+</pre><pre class="codeinput">size(G{2})
+[r(2),r(3),n(2)]
+G{2}(:,:,2) <span class="comment">% this corresponds to G_2(2)</span>
+</pre><pre class="codeoutput">
+ans =
+
+     4     8     3
+
+
+ans =
+
+     4     8     3
+
+
+ans =
+
+  Columns 1 through 7
+
+    0.4977   -0.5162   -0.4711   -0.2105    0.2730   -0.2154    0.1392
+    0.1356    0.1168    0.3427   -0.4686    0.4964    0.0712    0.1101
+    0.3288    0.4035    0.1417    0.4246    0.1421   -0.0537    0.2511
+    0.0775    0.0458   -0.2844    0.1149    0.2089   -0.0636   -0.5222
+
+  Column 8
+
+    0.0692
+   -0.1661
+   -0.0084
+    0.0349
+
+</pre><h2>EXERCISE 1: entrywise evaluation<a name="5"></a></h2><p>Complete the following function eval_TT_entry. As input, it expects a TT-representation G of a tensor T and an array I. The output is the value of the entry T_I. As before, it is more convenient to hand over n as parameter as well.</p><pre class="codeinput">I = [1,2,3,2]
+T1(1,2,3,2)
+eval_TT_entry(G,I,n)
+</pre><pre class="codeoutput">
+I =
+
+     1     2     3     2
+
+
+ans =
+
+   -0.1771
+
+
+ans =
+
+ANSWER 1 MISSING
+
+</pre><h2>Core product<a name="6"></a></h2><p>We can treat the cores as individual objects and multiply them:</p><pre class="language-matlab"><span class="keyword">function</span> H = boxtimes(G1,G2)
+</pre><pre class="language-matlab">[r1,k1,n1] = size(G1);
+[r2,k2,n2] = size(G2);
+</pre><pre class="language-matlab">H = zeros(r1,k2,n1,n2);
+<span class="keyword">for</span> i = 1:n1
+    <span class="keyword">for</span> j = 1:n2
+        H(:,:,i,j) = G1(:,:,i) * G2(:,:,j);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+H = reshape(H,[r1,k2,n1*n2]);
+</pre><pre class="language-matlab"><span class="keyword">end</span>
+</pre><pre class="codeinput">H = boxtimes(G{2},G{3});
+[r(2),r(4),n(2)*n(3)]
+size(H)
+</pre><pre class="codeoutput">
+ans =
+
+     4     2    12
+
+
+ans =
+
+     4     2    12
+
+</pre><pre class="codeinput">H_unfold = reshape(H,[r(2),r(4),n(2),n(3)]);
+H_unfold(:,:,2,3)
+G{2}(:,:,2) * G{3}(:,:,3)
+H(:,:,8)
+</pre><pre class="codeoutput">
+ans =
+
+    0.3913   -0.1541
+    0.0861    0.1444
+    0.1071    0.0531
+    0.0457   -0.1305
+
+
+ans =
+
+    0.3913   -0.1541
+    0.0861    0.1444
+    0.1071    0.0531
+    0.0457   -0.1305
+
+
+ans =
+
+    0.3913   -0.1541
+    0.0861    0.1444
+    0.1071    0.0531
+    0.0457   -0.1305
+
+</pre><p>We can also build the full tensor:</p><pre class="codeinput">T1_test = boxtimes(boxtimes(boxtimes(G{1},G{2}),G{3}),G{4});
+size(T1_test)
+T1_test = reshape(T1_test,n);
+T1_test(:,:,2,2)
+T1(:,:,2,2)
+</pre><pre class="codeoutput">
+ans =
+
+     1     1    96
+
+
+ans =
+
+   -1.4398    0.2037   -2.2201
+   -0.4735   -0.7120   -1.9182
+   -0.1015   -0.2505   -1.0671
+   -0.4250    0.1907    0.0799
+
+
+ans =
+
+   -1.4398    0.2037   -2.2201
+   -0.4735   -0.7120   -1.9182
+   -0.1015   -0.2505   -1.0671
+   -0.4250    0.1907    0.0799
+
+</pre><h2>EXERCISE 2: About the core product:<a name="10"></a></h2><p>Explain the outputs above. Why is <i>boxtimes</i> defined this way?</p><h2>Left and right interface matrcies<a name="11"></a></h2><p>Another important aspect is a certain reshaping of matrices.</p><pre class="language-matlab"><span class="keyword">function</span> R = right_fold(Gmu)
+    [r1,r2,n] = size(Gmu);
+    R = reshape(Gmu,[r1,r2*n]);
+<span class="keyword">end</span>
+</pre><pre class="language-matlab"><span class="keyword">function</span> L = left_fold(Gmu)
+    [r1,r2,n] = size(Gmu);
+    L = reshape(  permute(Gmu,[1,3,2])  ,[r1*n,r2]);
+<span class="keyword">end</span>
+</pre><pre class="codeinput">Gmu = zeros(2,3,2);
+Gmu(:) = 1:2*3*2
+left_fold(Gmu)
+right_fold(Gmu)
+</pre><pre class="codeoutput">
+Gmu(:,:,1) =
+
+     1     3     5
+     2     4     6
+
+
+Gmu(:,:,2) =
+
+     7     9    11
+     8    10    12
+
+
+ans =
+
+     1     3     5
+     2     4     6
+     7     9    11
+     8    10    12
+
+
+ans =
+
+     1     3     5     7     9    11
+     2     4     6     8    10    12
+
+</pre><p>The inverse operations are as follows:</p><pre class="codeinput">Gmu
+</pre><pre class="codeoutput">
+Gmu(:,:,1) =
+
+     1     3     5
+     2     4     6
+
+
+Gmu(:,:,2) =
+
+     7     9    11
+     8    10    12
+
+</pre><pre class="codeinput">right_unfold(right_fold(Gmu),2,3,2)
+</pre><pre class="codeoutput">
+ans(:,:,1) =
+
+     1     3     5
+     2     4     6
+
+
+ans(:,:,2) =
+
+     7     9    11
+     8    10    12
+
+</pre><pre class="codeinput">left_unfold(left_fold(Gmu),2,3,2)
+</pre><pre class="codeoutput">
+ans(:,:,1) =
+
+     1     3     5
+     2     4     6
+
+
+ans(:,:,2) =
+
+     7     9    11
+     8    10    12
+
+</pre><h2>Left- and right-orthogonality<a name="17"></a></h2><p>Like in the Tucker format, orthogonality constraints play an important role. Since the TT format is ordered, one core is either left or right of another one, like when multiplying matrices. Analogously, cores can either be left- or right-orthogonal, which corresponds to column and row orthogonality. Due to the contruction above, G{1} to G{d-1} are left-orthogonal, but not G{d}.</p><pre class="codeinput">round10 = @(x) round(x*1e10)/1e10;
+L = left_fold(G{1});
+round10(L'*L)
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     0     0
+     0     1     0     0
+     0     0     1     0
+     0     0     0     1
+
+</pre><pre class="codeinput">L = left_fold(G{2});
+round10(L'*L)
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     0     0     0     0     0     0
+     0     1     0     0     0     0     0     0
+     0     0     1     0     0     0     0     0
+     0     0     0     1     0     0     0     0
+     0     0     0     0     1     0     0     0
+     0     0     0     0     0     1     0     0
+     0     0     0     0     0     0     1     0
+     0     0     0     0     0     0     0     1
+
+</pre><pre class="codeinput">L = left_fold(G{3});
+round10(L'*L)
+</pre><pre class="codeoutput">
+ans =
+
+     1     0
+     0     1
+
+</pre><pre class="codeinput">L = left_fold(G{4});
+round10(L'*L)
+</pre><pre class="codeoutput">
+ans =
+
+  105.1664
+
+</pre><p>For the norm of the tensor then follows</p><pre class="codeinput">norm(T1(:))
+norm(G{4}(:))
+</pre><pre class="codeoutput">
+ans =
+
+   10.2551
+
+
+ans =
+
+   10.2551
+
+</pre><p>Sometimes one wishes a specific distribution of orthogonality contraints:</p><pre class="codeinput">G34 = boxtimes(G{3},G{4});
+
+R = right_fold(G{4});
+[Q,R] = qr(R',0); Q = Q'; R = R';
+
+G{4} = right_unfold(Q,r(4),r(5),n(4));
+G{3} = boxtimes(G{3},R);
+
+G34_new = boxtimes(G{3},G{4});
+round10(norm(G34(:)-G34_new(:))) <span class="comment">% we have not changed the product of these cores</span>
+</pre><pre class="codeoutput">
+ans =
+
+     0
+
+</pre><p>Hence now...</p><pre class="codeinput">L = left_fold(G{3});
+round10(L'*L)
+</pre><pre class="codeoutput">
+ans =
+
+   68.0287         0
+         0   37.1377
+
+</pre><pre class="codeinput">R = right_fold(G{3});
+round10(R*R')
+</pre><pre class="codeoutput">
+ans =
+
+  Columns 1 through 7
+
+   36.8279         0         0         0         0         0         0
+         0   26.2603         0         0         0         0         0
+         0         0   14.4290         0         0         0         0
+         0         0         0   10.8288         0         0         0
+         0         0         0         0    6.7720         0         0
+         0         0         0         0         0    5.2500         0
+         0         0         0         0         0         0    3.2939
+         0         0         0         0         0         0         0
+
+  Column 8
+
+         0
+         0
+         0
+         0
+         0
+         0
+         0
+    1.5044
+
+</pre><pre class="codeinput">R = right_fold(G{4});
+round10(R*R')
+</pre><pre class="codeoutput">
+ans =
+
+     1     0
+     0     1
+
+</pre><p>If we now want to know the norm of T1, we have to use G{3}</p><pre class="codeinput">norm(G{3}(:))
+norm(G{4}(:))
+norm(T1(:)) <span class="comment">% Frobenius norm</span>
+</pre><pre class="codeoutput">
+ans =
+
+   10.2551
+
+
+ans =
+
+    1.4142
+
+
+ans =
+
+   10.2551
+
+</pre><h2>EXERCISE 3: norm of a TT represented tensor<a name="27"></a></h2><p>Given a randomly initialized representation, calculate the Frobenius norm of the tensor being represented, without constructing the full tensor.</p><p>To validate your result, you may then construct the full tensor.</p><pre class="codeinput">d = 4
+G = cell(1,d);
+n = randi([3,4],1,d)
+r = [1,randi([2,3],1,d-1),1]
+<span class="keyword">for</span> mu = 1:d
+    G{mu} = randn(r(mu),r(mu+1),n(mu));
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+d =
+
+     4
+
+
+n =
+
+     4     4     3     4
+
+
+r =
+
+     1     2     2     3     1
+
+</pre><h2>SOLUTION 3<a name="28"></a></h2><pre class="codeinput"><span class="string">'ANSWER 3 MISSING'</span>;
+</pre><h2>EXERCISE 4: comparision of CP, Tucker and TT format<a name="29"></a></h2><p>Recall the properties of the CP and Tucker format and compare them to the TT format. What is a weakspot of TT, which both CP and Tucker do not have? What about tensors with very large dimension?</p><h2>EXERCISE* 5: compression within a TT representation<a name="30"></a></h2><p>Create a function in a separat Matlab file which applies the following procedure to a tensor, given by a TT-representation, but without constructing the full tensor:</p><pre class="language-matlab"><span class="keyword">function</span> [T,r] = TT_truncate_full_tensor(T,tol)
+</pre><pre class="language-matlab">n = size(T);
+d = length(n);
+r = ones(1,d+1);
+</pre><pre class="language-matlab"><span class="keyword">for</span> mu = 1:d-1
+    [U,S,V] = svd( reshape(T,[prod(n(1:mu)),prod(n(mu+1:d))]) ,0);
+    r(mu+1) = sum(diag(S)&gt;tol); <span class="comment">% count number of entries larger than tol</span>
+    T = U(:,1:(mu+1)) * S(1:(mu+1),1:(mu+1)) * V(:,1:(mu+1))';
+<span class="keyword">end</span>
+</pre><pre class="language-matlab">T = reshape(T,n);
+<span class="keyword">end</span>
+</pre><pre class="codeinput">d = randi([5,6],1)
+G = cell(1,d);
+n = randi([4,5],1,d)
+r = [1,randi([2,4],1,d-1),1]
+</pre><pre class="codeoutput">
+d =
+
+     5
+
+
+n =
+
+     4     5     4     4     5
+
+
+r =
+
+     1     3     2     3     3     1
+
+</pre><pre class="codeinput"><span class="keyword">for</span> mu = 1:d <span class="comment">% random representation</span>
+    G{mu} = randn(r(mu),r(mu+1),n(mu));
+    G{mu} = boxtimes(G{mu},diag(5.^(-(1:r(mu+1)))));
+<span class="keyword">end</span>
+
+T2 = 1; <span class="comment">% construct full tensor</span>
+<span class="keyword">for</span> mu = 1:d
+    T2 = boxtimes(T2,G{mu});
+<span class="keyword">end</span>
+T2 = reshape(T2,n);
+</pre><pre class="codeinput">[T2_trunc,r] = TT_truncate_full_tensor(T2,1e-4);
+T2_trunc(1:16)
+r
+</pre><pre class="codeoutput">
+ans =
+
+   1.0e-04 *
+
+  Columns 1 through 7
+
+    0.2309    0.2724   -0.5113    0.2898    0.0449    0.0583   -0.1211
+
+  Columns 8 through 14
+
+    0.0761    0.1928    0.2248   -0.4165    0.2325    0.1972    0.2019
+
+  Columns 15 through 16
+
+   -0.3124    0.1344
+
+
+r =
+
+     1     2     2     3     2     1
+
+</pre><h2>SOLUTION 5<a name="34"></a></h2><pre class="codeinput"><span class="string">'ANSWER 5 MISSING'</span>;
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Tensor Train format 
+% _Written by Sebastian Kraemer, IGPM at RWTH Aachen University_
+%
+% _The TT decomposition was first introduced to mathematics by I.V.
+% Oseledets (2011)_
+%
+% The Tensor Train (short: TT) format may appear complicated, but in many
+% aspects it is one of the most convenient formats.
+%
+% $$ $$ Similar to the Tucker format, the TT-ranks $r \in R^{d-1}$ are
+% easily calculated as $$ $$
+%
+% $$ r_{\mu}(T) = \mathrm{TT-rank}_{\mu}(T) = \mathrm{rank}(T^{(1,\ldots,\mu)}) $$
+%
+% $$ $$ where the matrix $$ T^{(1,\ldots,\mu)} $$ is defined via (again using Matlab code)
+% $$ $$
+%
+% $$ T^{(1,\ldots,\mu)} :=
+% {\tt
+% reshape(T,[1:mu,mu+1:d])}
+% $$
+%
+% $$ $$ For simplicity, one sets $r_0 = r_d = 1$. It then follows that there exist cores $$ $$
+%
+% $$ G_\mu: \{1,\ldots,n_\mu\} \mapsto R^{r_{\mu-1} \times r_{\mu}},\ \mu = 1,\ldots,d $$ such that $$ T_I = G_1(i_1) \cdot \ldots \cdot G_d(i_d), \quad \forall I = (i_1,\ldots,i_d). $$
+%
+% $$ $$ Note that since Matlab starts indexing at $1$, we need to shift $r$ by one.
+% $$ $$
+%%
+clear all % this clears all variables of their values
+
+%% Numerical rank
+% Before we start, one should recall the trouble one can have with rank
+% estimates. In the second line, the value 1e-16 might be the result of
+% round-off errors or simply correct. 
+rank(diag([1,1e-15]))
+rank(diag([1,1e-16]))
+
+%% TT-SVD
+% The following procedure constructs a TT-representation for any input
+% tensor T. Since the input tensor may have low rank, we require a
+% truncation tolerace _tol_ , in order to avoid the trouble indicated above
+% (this is exactly what the rank function does, but we are going to do this ourselves). 
+%
+% There is no need yet to fully understand this computation. In the next 
+% exercise, we only want to whether it is correct. For more insight, have
+% a look at the worksheet _Hierarchy in the game of modes_.
+
+tol = 1e-15;
+T1 = randn(4,3,4,2);
+
+n = size(T1)
+d = length(n)
+G = cell(1,d);
+r = zeros(1,d+1);
+r(1) = 1; r(d+1) = 1; % note the shift
+
+B = T1;
+for mu = 1:d
+    [U,S,V] = svd(reshape(B,[n(mu)*r(mu),prod(n(mu+1:d))]),0);
+    r(mu+1) = sum(diag(S) > tol); % count singular values larger than tol
+    G{mu} = permute( reshape(U,[r(mu),n(mu),r(mu+1)]) , [1,3,2]);
+    B = S*V';
+end
+G{d} = G{d} * B; % B at this point is a scalar
+r
+%%
+size(G{2})
+[r(2),r(3),n(2)]
+G{2}(:,:,2) % this corresponds to G_2(2)
+
+%% EXERCISE 1: entrywise evaluation
+% Complete the following function eval_TT_entry. As input, it expects
+% a TT-representation G of a tensor T and an array I. The output is the
+% value of the entry T_I. As before, it is more convenient to
+% hand over n as parameter as well.
+%
+I = [1,2,3,2]
+T1(1,2,3,2)
+eval_TT_entry(G,I,n)
+
+%% Core product
+% We can treat the cores as individual objects and multiply them:
+
+%%
+%   function H = boxtimes(G1,G2)
+% 
+%   [r1,k1,n1] = size(G1);
+%   [r2,k2,n2] = size(G2);
+% 
+%   H = zeros(r1,k2,n1,n2);
+%   for i = 1:n1
+%       for j = 1:n2
+%           H(:,:,i,j) = G1(:,:,i) * G2(:,:,j);
+%       end
+%   end
+%   H = reshape(H,[r1,k2,n1*n2]);
+% 
+%   end
+H = boxtimes(G{2},G{3});
+[r(2),r(4),n(2)*n(3)]
+size(H)
+%%
+H_unfold = reshape(H,[r(2),r(4),n(2),n(3)]);
+H_unfold(:,:,2,3)
+G{2}(:,:,2) * G{3}(:,:,3)
+H(:,:,8)
+
+%%
+% We can also build the full tensor:
+T1_test = boxtimes(boxtimes(boxtimes(G{1},G{2}),G{3}),G{4});
+size(T1_test)
+T1_test = reshape(T1_test,n);
+T1_test(:,:,2,2)
+T1(:,:,2,2)
+
+%% EXERCISE 2: About the core product:
+% Explain the outputs above. Why is _boxtimes_ defined this way?
+
+%% Left and right interface matrcies
+% Another important aspect is a certain reshaping of matrices.
+
+%%
+%   function R = right_fold(Gmu)
+%       [r1,r2,n] = size(Gmu);
+%       R = reshape(Gmu,[r1,r2*n]);
+%   end
+%
+
+%%
+%   function L = left_fold(Gmu) 
+%       [r1,r2,n] = size(Gmu);
+%       L = reshape(  permute(Gmu,[1,3,2])  ,[r1*n,r2]);
+%   end
+Gmu = zeros(2,3,2); 
+Gmu(:) = 1:2*3*2
+left_fold(Gmu)
+right_fold(Gmu)
+
+%%
+% The inverse operations are as follows:
+Gmu
+%%
+right_unfold(right_fold(Gmu),2,3,2)
+%%
+left_unfold(left_fold(Gmu),2,3,2)
+
+%% Left- and right-orthogonality
+% Like in the Tucker format, orthogonality constraints play an important
+% role. Since the TT format is ordered, one core is either
+% left or right of another one, like when multiplying matrices.
+% Analogously, cores can either be left- or right-orthogonal, which
+% corresponds to column and row orthogonality. Due to the contruction
+% above, G{1} to G{d-1} are left-orthogonal, but not G{d}.
+round10 = @(x) round(x*1e10)/1e10;
+L = left_fold(G{1});
+round10(L'*L)
+%%
+L = left_fold(G{2});
+round10(L'*L)
+%%
+L = left_fold(G{3});
+round10(L'*L)
+%%
+L = left_fold(G{4});
+round10(L'*L)
+
+%% 
+% For the norm of the tensor then follows
+norm(T1(:))
+norm(G{4}(:))
+
+%%
+% Sometimes one wishes a specific distribution of orthogonality contraints:
+G34 = boxtimes(G{3},G{4});
+
+R = right_fold(G{4});
+[Q,R] = qr(R',0); Q = Q'; R = R';
+
+G{4} = right_unfold(Q,r(4),r(5),n(4));
+G{3} = boxtimes(G{3},R);
+
+G34_new = boxtimes(G{3},G{4});
+round10(norm(G34(:)-G34_new(:))) % we have not changed the product of these cores
+
+%%
+% Hence now...
+L = left_fold(G{3});
+round10(L'*L)
+%%
+R = right_fold(G{3});
+round10(R*R')
+%%
+R = right_fold(G{4});
+round10(R*R')
+
+%%
+% If we now want to know the norm of T1, we have to use G{3}
+norm(G{3}(:))
+norm(G{4}(:))
+norm(T1(:)) % Frobenius norm
+
+%% EXERCISE 3: norm of a TT represented tensor
+% Given a randomly initialized representation, calculate the Frobenius norm
+% of the tensor being represented, without constructing the full tensor.
+%
+% To validate your result, you may then construct the full tensor.
+d = 4
+G = cell(1,d);
+n = randi([3,4],1,d)
+r = [1,randi([2,3],1,d-1),1]
+for mu = 1:d
+    G{mu} = randn(r(mu),r(mu+1),n(mu));
+end
+
+%% SOLUTION 3
+'ANSWER 3 MISSING';
+
+%% EXERCISE 4: comparision of CP, Tucker and TT format
+% Recall the properties of the CP and Tucker format and compare them to the
+% TT format. What is a weakspot of TT, which both CP and Tucker do not
+% have? What about tensors with very large dimension? 
+
+%% EXERCISE* 5: compression within a TT representation
+% Create a function in a separat Matlab file which applies the following
+% procedure to a tensor, given by a TT-representation, 
+% but without constructing the full tensor:
+%
+%%
+%   function [T,r] = TT_truncate_full_tensor(T,tol)
+% 
+%   n = size(T);
+%   d = length(n);
+%   r = ones(1,d+1);
+% 
+%   for mu = 1:d-1
+%       [U,S,V] = svd( reshape(T,[prod(n(1:mu)),prod(n(mu+1:d))]) ,0);
+%       r(mu+1) = sum(diag(S)>tol); % count number of entries larger than tol
+%       T = U(:,1:(mu+1)) * S(1:(mu+1),1:(mu+1)) * V(:,1:(mu+1))';
+%   end
+%   
+%   T = reshape(T,n);
+%   end
+%
+d = randi([5,6],1)
+G = cell(1,d);
+n = randi([4,5],1,d)
+r = [1,randi([2,4],1,d-1),1]
+%%
+for mu = 1:d % random representation
+    G{mu} = randn(r(mu),r(mu+1),n(mu));
+    G{mu} = boxtimes(G{mu},diag(5.^(-(1:r(mu+1)))));
+end
+
+T2 = 1; % construct full tensor
+for mu = 1:d
+    T2 = boxtimes(T2,G{mu});
+end
+T2 = reshape(T2,n);
+%%
+[T2_trunc,r] = TT_truncate_full_tensor(T2,1e-4);
+T2_trunc(1:16)
+r
+
+%% SOLUTION 5
+'ANSWER 5 MISSING';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
